@@ -1,9 +1,11 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { simpleGit, SimpleGit } from 'simple-git'
+import { generateGitignore } from '../utils/gitignore'
 
 interface FastAPIProjectOptions {
   git?: boolean
+  repository?: string
 }
 
 export async function generateFastApiProject(
@@ -13,9 +15,20 @@ export async function generateFastApiProject(
   const projectPath = path.join(process.cwd(), projectName)
   const shouldInitializeGit = options.git !== false // Default to true if not explicitly set to false
   const git: SimpleGit = simpleGit()
+  const repository =
+    options.repository ||
+    'https://github.com/parraletz/fastapi-service-template.git'
 
   try {
-    await fs.ensureDir(projectPath)
+    // Clone the repository
+    console.log(`Cloning the FastAPI template from ${repository}...`)
+    await git.clone(repository, projectPath)
+
+    // Remove the .git directory to start fresh
+    await fs.remove(path.join(projectPath, '.git'))
+
+    // Generate .gitignore file using the utility
+    await generateGitignore(projectPath, ['python', 'venv', 'vscode'])
 
     // Create project files
     await fs.writeFile(
@@ -41,11 +54,6 @@ async def root():
     )
 
     await fs.writeFile(
-      path.join(projectPath, '.gitignore'),
-      'venv/\n__pycache__/\n.env\n'
-    )
-
-    await fs.writeFile(
       path.join(projectPath, 'README.md'),
       `# ${projectName}
 
@@ -54,23 +62,22 @@ A FastAPI project.
 ## Setup
 
 1. Create virtual environment:
-   \`\`\`bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\\Scripts\\activate
-   \`\`\`
+    \`\`\`bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\\Scripts\\activate
+    \`\`\`
 
 2. Install dependencies:
-   \`\`\`bash
-   pip install -r requirements.txt
-   \`\`\`
+    \`\`\`bash
+    pip install -r requirements.txt
+    \`\`\`
 
 3. Run the server:
-   \`\`\`bash
-   uvicorn main:app --reload
-   \`\`\`
+    \`\`\`bash
+    uvicorn main:app --reload
+    \`\`\`
 
-Visit http://localhost:8000/docs for the API documentation.
-`
+Visit http://localhost:8000/docs for the API documentation.`
     )
 
     // Initialize git if not disabled
