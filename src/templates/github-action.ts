@@ -36,7 +36,7 @@ export async function generateGithubActionProject(
     )
     actionYmlContent = actionYmlContent.replace(
       /description: 'GitHub Action to add reviewers'/,
-      `description: 'GitHub Action generated with Parraletz CLI'`
+      `description: 'GitHub Action generated with Cmdr CLI'`
     )
     await fs.writeFile(actionYmlPath, actionYmlContent)
 

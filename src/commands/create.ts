@@ -10,6 +10,8 @@ import { generateK8sOperatorProject } from '../templates/k8s-operator'
 import { generateKubernetesProject } from '../templates/kubernetes'
 import { generateKubernetesKustomizeProject } from '../templates/kubernetes-kustomize'
 import { generateTerraformProject } from '../templates/terraform'
+import { generateTypescriptLibraryProject } from '../templates/typescript-library'
+
 
 export async function createProject() {
   const { projectType } = await inquirer.prompt([
@@ -26,8 +28,9 @@ export async function createProject() {
         { name: 'Kubernetes Manifests', value: 'kubernetes' },
         { name: 'Kubernetes with Kustomize', value: 'kubernetes-kustomize' },
         { name: 'Gitignore Template', value: 'gitignore' },
-      ],
-    },
+        { name: 'TypeScript Library', value: 'typescript-library' }
+      ]
+    }
   ])
 
   let gitignoreTemplate: string | undefined
@@ -118,6 +121,9 @@ export async function createProject() {
         break
       case 'express':
         await generateExpressProject(projectName!)
+        break
+      case 'typescript-library':
+        await generateTypescriptLibraryProject(projectName!)
         break
       case 'fastapi':
         await generateFastApiProject(projectName!)
