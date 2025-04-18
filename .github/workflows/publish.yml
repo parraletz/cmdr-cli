@@ -1,9 +1,7 @@
 name: Build and Publish Package
 
 on:
-  push:
-    tags:
-      - 'v*' # Run the workflow when a new tag is pushed that starts with 'v'
+  workflow_dispatch:
 
 jobs:
   build-and-publish:
