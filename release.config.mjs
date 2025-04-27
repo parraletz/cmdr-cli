@@ -11,7 +11,8 @@ export default {
     [
       '@semantic-release/exec',
       {
-        prepareCmd: 'npx replace-json-property package.json version ${nextRelease.version}',
+        prepareCmd:
+          'npx replace-json-property package.json version ${nextRelease.version} && npx replace-json-property src/version.json version ${nextRelease.version}',
         successCmd: 'echo "Release ${nextRelease.version} published"',
         failCmd: 'echo "Failed to publish release ${nextRelease.version}"'
       }
