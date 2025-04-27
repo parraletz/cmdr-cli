@@ -49,10 +49,13 @@ jobs:
 
       - name: Extract version from tag
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+          echo "VERSION=${GITHUB_REF#refs/tags/v}"
 
       - name: Set package version and update package metadata
         run: |
+          echo "VERSION=${{ env.VERSION }}"
           pnpm pkg set version=${{ env.VERSION }}
           pnpm pkg set name=@${{ github.repository_owner }}/cmdr-cli
           pnpm pkg set publishConfig.registry=https://npm.pkg.github.com
