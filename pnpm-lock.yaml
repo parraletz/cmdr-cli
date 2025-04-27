@@ -99,6 +99,9 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
+      replace-json-property:
+        specifier: ^1.9.0
+        version: 1.9.0
       semantic-release:
         specifier: ^24.2.3
         version: 24.2.3(typescript@5.8.3)
@@ -1072,6 +1075,9 @@ packages:
     resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
     engines: {node: '>=18'}
 
+  commander@2.20.3:
+    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
+
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
 
@@ -1940,6 +1946,9 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
+  jsonfile@5.0.0:
+    resolution: {integrity: sha512-NQRZ5CRo74MhMMC3/3r5g2k4fjodJ/wh8MxjFbCViWKFjxrnudWSY5vomh+23ZaXzAS7J3fBZIR2dV6WbmfM0w==}
+
   jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
 
@@ -2507,6 +2516,10 @@ packages:
     resolution: {integrity: sha512-GdekYuwLXLxMuFTwAPg5UKGLW/UXzQrZvH/Zj791BQif5T05T0RsaLfHc9q3ZOKi7n+BoprPD9mJ0O0k4xzUlw==}
     engines: {node: '>=14'}
 
+  replace-json-property@1.9.0:
+    resolution: {integrity: sha512-+X6pZXsXSUKT9OzpJQjeDgLp9d0Ck7fsLZcNLhVL29XkwmB5oBz5T3fovs23/P0rLpzbCXrzG9/mbnyDrau+pw==}
+    hasBin: true
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -2911,6 +2924,10 @@ packages:
 
   universal-user-agent@7.0.2:
     resolution: {integrity: sha512-0JCqzSKnStlRRQfCdowvqy3cy0Dvtlb8xecj/H8JFZuCze4rwjPZQOgvFvn0Ws/usCHQFGpyr+pB9adaGwXn4Q==}
+
+  universalify@0.1.2:
+    resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
+    engines: {node: '>= 4.0.0'}
 
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -4269,6 +4286,8 @@ snapshots:
 
   commander@13.1.0: {}
 
+  commander@2.20.3: {}
+
   compare-func@2.0.0:
     dependencies:
       array-ify: 1.0.0
@@ -5311,6 +5330,12 @@ snapshots:
 
   json5@2.2.3: {}
 
+  jsonfile@5.0.0:
+    dependencies:
+      universalify: 0.1.2
+    optionalDependencies:
+      graceful-fs: 4.2.11
+
   jsonfile@6.1.0:
     dependencies:
       universalify: 2.0.1
@@ -5777,6 +5802,12 @@ snapshots:
     dependencies:
       '@pnpm/npm-conf': 2.3.1
 
+  replace-json-property@1.9.0:
+    dependencies:
+      chalk: 4.1.2
+      commander: 2.20.3
+      jsonfile: 5.0.0
+
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
@@ -6155,6 +6186,8 @@ snapshots:
       crypto-random-string: 4.0.0
 
   universal-user-agent@7.0.2: {}
+
+  universalify@0.1.2: {}
 
   universalify@2.0.1: {}
 
