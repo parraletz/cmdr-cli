@@ -39,6 +39,9 @@ jobs:
       - name: Build TypeScript
         run: pnpm build
 
+      - name: Disable git hooks
+        run: git config --local core.hooksPath /dev/null
+
       - name: Run Semantic Release
         run: pnpm semantic-release
         env:
