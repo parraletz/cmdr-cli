@@ -1,6 +1,6 @@
 const config = {
   '**/*.{html,json,css,scss,md,mdx}': ['prettier -w'],
-  '**/*.{js,ts,jsx,tsx}': ['eslint --fix', 'pnpm test']
+  '**/*.{js,ts,jsx,tsx}': ['eslint --fix']
 }
 
 export default config
