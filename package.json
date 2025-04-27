@@ -12,7 +12,8 @@
     "dev": "ts-node src/index.ts",
     "postinstall": "pnpm build",
     "test": "jest",
-    "prepare": "husky"
+    "prepare": "husky",
+    "semantic-release": "semantic-release"
   },
   "dependencies": {
     "chalk": "^4.1.2",
@@ -30,9 +31,11 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.1",
     "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^7.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/fs-extra": "^11.0.1",
     "@types/inquirer": "^8.2.5",
     "@types/jest": "^29.5.14",
