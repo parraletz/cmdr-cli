@@ -10,8 +10,8 @@ jest.mock('simple-git', () => {
       clone: jest.fn().mockResolvedValue(undefined),
       init: jest.fn().mockResolvedValue(undefined),
       add: jest.fn().mockResolvedValue(undefined),
-      commit: jest.fn().mockResolvedValue(undefined),
-    }),
+      commit: jest.fn().mockResolvedValue(undefined)
+    })
   }
 })
 
@@ -20,21 +20,16 @@ jest.mock('fs-extra', () => ({
   mkdir: jest.fn().mockResolvedValue(undefined),
   remove: jest.fn().mockResolvedValue(undefined),
   writeJson: jest.fn().mockResolvedValue(undefined),
-  readJson: jest
-    .fn()
-    .mockResolvedValue({ name: 'express-typescript-service-template' }),
+  readJson: jest.fn().mockResolvedValue({ name: 'express-typescript-service-template' }),
   writeFile: jest.fn().mockResolvedValue(undefined),
-  readFile: jest
-    .fn()
-    .mockResolvedValue('# Express.js TypeScript Service Template'),
-  existsSync: jest.fn().mockReturnValue(true),
+  readFile: jest.fn().mockResolvedValue('# Express.js TypeScript Service Template'),
+  existsSync: jest.fn().mockReturnValue(true)
 }))
 
 describe('Express Template Generator', () => {
   const projectName = 'test-express-project'
   const projectPath = path.join(process.cwd(), projectName)
-  const defaultRepo =
-    'https://github.com/parraletz/express-typescript-service-template.git'
+  const defaultRepo = 'https://github.com/parraletz/express-typescript-service-template.git'
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -57,9 +52,7 @@ describe('Express Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -67,10 +60,7 @@ describe('Express Template Generator', () => {
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -95,9 +85,7 @@ describe('Express Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -105,10 +93,7 @@ describe('Express Template Generator', () => {
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -132,9 +117,7 @@ describe('Express Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -142,10 +125,7 @@ describe('Express Template Generator', () => {
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -166,9 +146,7 @@ describe('Express Template Generator', () => {
     ;(simpleGit().clone as jest.Mock).mockRejectedValueOnce(mockError)
 
     // Verify the function throws the error
-    await expect(generateExpressProject(projectName)).rejects.toThrow(
-      'Git clone failed'
-    )
+    await expect(generateExpressProject(projectName)).rejects.toThrow('Git clone failed')
 
     // Verify cleanup was performed
     expect(fs.remove).toHaveBeenCalledWith(projectPath)

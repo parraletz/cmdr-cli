@@ -7,7 +7,7 @@ export async function generateTerraformProject(
   options: { git?: boolean } = {}
 ) {
   const projectPath = path.join(process.cwd(), projectName)
-  const shouldInitializeGit = options.git !== false // Default to true if not explicitly set to false
+  const shouldInitializeGit = options.git !== false
   const git: SimpleGit = simpleGit()
 
   try {

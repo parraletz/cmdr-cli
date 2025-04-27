@@ -1,49 +1,53 @@
 name: Build and Publish Package
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          cache: 'pnpm'
+          node-version: '22'
           registry-url: 'https://npm.pkg.github.com'
           scope: '@${{ github.repository_owner }}'
-      
+
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
-      
+          version: 10
+          run_install: false
+
       - name: Install dependencies
         run: pnpm install
-      
+
       - name: Run Tests
         run: pnpm test
-      
+
       - name: Build TypeScript
         run: pnpm build
-      
+
       - name: Extract version from tag
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-      
+
       - name: Set package version and update package metadata
         run: |
           pnpm pkg set version=${{ env.VERSION }}
-          pnpm pkg set name=@${{ github.repository_owner }}/your-library-name
+          pnpm pkg set name=@${{ github.repository_owner }}/cmdr-cli
           pnpm pkg set publishConfig.registry=https://npm.pkg.github.com
           pnpm pkg set repository.type=git
-          pnpm pkg set repository.url=git+https://github.com/${{ github.repository_owner }}/your-library-name.git
-      
+          pnpm pkg set repository.url=git+https://github.com/${{ github.repository_owner }}/cmdr-cli.git
+
       - name: Publish to GitHub Package Registry
         run: pnpm publish --no-git-checks
         env:

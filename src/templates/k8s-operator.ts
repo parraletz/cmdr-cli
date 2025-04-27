@@ -13,10 +13,7 @@ export async function generateK8sOperatorProject(
   try {
     // Clone the repository
     console.log('Cloning the Kubernetes Operator template...')
-    await git.clone(
-      'https://github.com/parraletz/k8s-operator-template.git',
-      projectPath
-    )
+    await git.clone('https://github.com/parraletz/k8s-operator-template.git', projectPath)
 
     // Remove the .git directory to start fresh
     await fs.remove(path.join(projectPath, '.git'))
@@ -30,10 +27,7 @@ export async function generateK8sOperatorProject(
     // Update README.md
     const readmePath = path.join(projectPath, 'README.md')
     let readmeContent = await fs.readFile(readmePath, 'utf-8')
-    readmeContent = readmeContent.replace(
-      /# Kubernetes Operator Template/,
-      `# ${projectName}`
-    )
+    readmeContent = readmeContent.replace(/# Kubernetes Operator Template/, `# ${projectName}`)
     readmeContent = readmeContent.replace(
       /git clone https:\/\/github\.com\/parraletz\/k8s-operator-template\.git/,
       `git clone YOUR_REPOSITORY_URL`

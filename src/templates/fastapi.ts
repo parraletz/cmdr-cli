@@ -16,8 +16,7 @@ export async function generateFastApiProject(
   const shouldInitializeGit = options.git !== false // Default to true if not explicitly set to false
   const git: SimpleGit = simpleGit()
   const repository =
-    options.repository ||
-    'https://github.com/parraletz/fastapi-service-template.git'
+    options.repository || 'https://github.com/parraletz/fastapi-service-template.git'
 
   try {
     // Clone the repository
@@ -48,10 +47,7 @@ async def root():
 `
     )
 
-    await fs.writeFile(
-      path.join(projectPath, '.env'),
-      'PORT=8000\nENVIRONMENT=development\n'
-    )
+    await fs.writeFile(path.join(projectPath, '.env'), 'PORT=8000\nENVIRONMENT=development\n')
 
     await fs.writeFile(
       path.join(projectPath, 'README.md'),

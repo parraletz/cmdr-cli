@@ -10,8 +10,8 @@ jest.mock('simple-git', () => {
       clone: jest.fn().mockResolvedValue(undefined),
       init: jest.fn().mockResolvedValue(undefined),
       add: jest.fn().mockResolvedValue(undefined),
-      commit: jest.fn().mockResolvedValue(undefined),
-    }),
+      commit: jest.fn().mockResolvedValue(undefined)
+    })
   }
 })
 
@@ -23,7 +23,7 @@ jest.mock('fs-extra', () => ({
   readJson: jest.fn().mockResolvedValue({ name: 'k8s-operator-template' }),
   writeFile: jest.fn().mockResolvedValue(undefined),
   readFile: jest.fn().mockResolvedValue('# Kubernetes Operator Template'),
-  existsSync: jest.fn().mockReturnValue(true),
+  existsSync: jest.fn().mockReturnValue(true)
 }))
 
 describe('Kubernetes Operator Template Generator', () => {
@@ -54,9 +54,7 @@ describe('Kubernetes Operator Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -64,10 +62,7 @@ describe('Kubernetes Operator Template Generator', () => {
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -77,9 +72,7 @@ describe('Kubernetes Operator Template Generator', () => {
     const projectGit = simpleGit(projectPath)
     expect(projectGit.init).toHaveBeenCalled()
     expect(projectGit.add).toHaveBeenCalledWith('.')
-    expect(projectGit.commit).toHaveBeenCalledWith(
-      'Initial commit from k8s-operator-template'
-    )
+    expect(projectGit.commit).toHaveBeenCalledWith('Initial commit from k8s-operator-template')
   })
 
   it('should create a new Kubernetes Operator project without git when --no-git is specified', async () => {
@@ -95,9 +88,7 @@ describe('Kubernetes Operator Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -105,10 +96,7 @@ describe('Kubernetes Operator Template Generator', () => {
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -127,9 +115,7 @@ describe('Kubernetes Operator Template Generator', () => {
     ;(simpleGit().clone as jest.Mock).mockRejectedValueOnce(mockError)
 
     // Verify the function throws the error
-    await expect(generateK8sOperatorProject(projectName)).rejects.toThrow(
-      'Git clone failed'
-    )
+    await expect(generateK8sOperatorProject(projectName)).rejects.toThrow('Git clone failed')
 
     // Verify cleanup was performed
     expect(fs.remove).toHaveBeenCalledWith(projectPath)

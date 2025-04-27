@@ -13,8 +13,7 @@ export async function generateExpressProject(
   const shouldInitializeGit = options.git !== false // Default to true if not explicitly set to false
   const git: SimpleGit = simpleGit()
   const repository =
-    options.repository ||
-    'https://github.com/parraletz/express-typescript-service-template.git'
+    options.repository || 'https://github.com/parraletz/express-typescript-service-template.git'
 
   try {
     // Clone the repository
@@ -49,9 +48,7 @@ export async function generateExpressProject(
       const projectGit = simpleGit(projectPath)
       await projectGit.init()
       await projectGit.add('.')
-      await projectGit.commit(
-        'Initial commit from express-typescript-service-template'
-      )
+      await projectGit.commit('Initial commit from express-typescript-service-template')
     }
   } catch (error) {
     // Clean up if something goes wrong

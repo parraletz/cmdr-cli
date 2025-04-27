@@ -10,8 +10,8 @@ jest.mock('simple-git', () => {
       clone: jest.fn().mockResolvedValue(undefined),
       init: jest.fn().mockResolvedValue(undefined),
       add: jest.fn().mockResolvedValue(undefined),
-      commit: jest.fn().mockResolvedValue(undefined),
-    }),
+      commit: jest.fn().mockResolvedValue(undefined)
+    })
   }
 })
 
@@ -32,7 +32,7 @@ description: 'GitHub Action to add reviewers'`)
     }
     return Promise.resolve('')
   }),
-  existsSync: jest.fn().mockReturnValue(true),
+  existsSync: jest.fn().mockReturnValue(true)
 }))
 
 describe('GitHub Action Template Generator', () => {
@@ -63,9 +63,7 @@ describe('GitHub Action Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -73,20 +71,14 @@ describe('GitHub Action Template Generator', () => {
     )
 
     // Verify action.yml was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'action.yml'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'action.yml'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'action.yml'),
       expect.stringContaining(`name: '${projectName}'`)
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -114,9 +106,7 @@ describe('GitHub Action Template Generator', () => {
     expect(fs.remove).toHaveBeenCalledWith(path.join(projectPath, '.git'))
 
     // Verify package.json was updated
-    expect(fs.readJson).toHaveBeenCalledWith(
-      path.join(projectPath, 'package.json')
-    )
+    expect(fs.readJson).toHaveBeenCalledWith(path.join(projectPath, 'package.json'))
     expect(fs.writeJson).toHaveBeenCalledWith(
       path.join(projectPath, 'package.json'),
       expect.objectContaining({ name: projectName }),
@@ -124,20 +114,14 @@ describe('GitHub Action Template Generator', () => {
     )
 
     // Verify action.yml was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'action.yml'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'action.yml'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'action.yml'),
       expect.stringContaining(`name: '${projectName}'`)
     )
 
     // Verify README.md was updated
-    expect(fs.readFile).toHaveBeenCalledWith(
-      path.join(projectPath, 'README.md'),
-      'utf-8'
-    )
+    expect(fs.readFile).toHaveBeenCalledWith(path.join(projectPath, 'README.md'), 'utf-8')
     expect(fs.writeFile).toHaveBeenCalledWith(
       path.join(projectPath, 'README.md'),
       expect.stringContaining(projectName)
@@ -156,9 +140,7 @@ describe('GitHub Action Template Generator', () => {
     ;(simpleGit().clone as jest.Mock).mockRejectedValueOnce(mockError)
 
     // Verify the function throws the error
-    await expect(generateGithubActionProject(projectName)).rejects.toThrow(
-      'Git clone failed'
-    )
+    await expect(generateGithubActionProject(projectName)).rejects.toThrow('Git clone failed')
 
     // Verify cleanup was performed
     expect(fs.remove).toHaveBeenCalledWith(projectPath)

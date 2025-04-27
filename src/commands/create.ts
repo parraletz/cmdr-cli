@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import ora from 'ora'
 import { generateExpressProject } from '../templates/express'
+import { generateExpressHexagonalProject } from '../templates/express-hexagonal'
 import { generateFastApiProject } from '../templates/fastapi'
 import { generateGithubActionProject } from '../templates/github-action'
 import { generateGitignore } from '../templates/gitignore'
@@ -11,7 +12,6 @@ import { generateKubernetesProject } from '../templates/kubernetes'
 import { generateKubernetesKustomizeProject } from '../templates/kubernetes-kustomize'
 import { generateTerraformProject } from '../templates/terraform'
 import { generateTypescriptLibraryProject } from '../templates/typescript-library'
-
 
 export async function createProject() {
   const { projectType } = await inquirer.prompt([
@@ -22,6 +22,7 @@ export async function createProject() {
       choices: [
         { name: 'Terraform Project', value: 'terraform' },
         { name: 'Express.js API', value: 'express' },
+        { name: 'Express Hexagonal Architecture Boilerplate', value: 'express-hexagonal' },
         { name: 'FastAPI Python Project', value: 'fastapi' },
         { name: 'GitHub Action', value: 'github-action' },
         { name: 'Kubernetes Operator', value: 'k8s-operator' },
@@ -36,8 +37,7 @@ export async function createProject() {
   let gitignoreTemplate: string | undefined
   let projectPath: string | undefined
   let projectName: string | undefined
-  let kubernetesOptions: { image?: string; port?: number; replicas?: number } =
-    {}
+  let kubernetesOptions: { image?: string; port?: number; replicas?: number } = {}
 
   if (projectType === 'gitignore') {
     const result = await inquirer.prompt([
@@ -45,21 +45,18 @@ export async function createProject() {
         type: 'input',
         name: 'gitignoreTemplate',
         message: 'Enter the gitignore template name:',
-        default: 'node',
+        default: 'node'
       },
       {
         type: 'input',
         name: 'projectPath',
         message: 'Enter the project path:',
-        default: process.cwd(),
-      },
+        default: process.cwd()
+      }
     ])
     gitignoreTemplate = result.gitignoreTemplate
     projectPath = result.projectPath
-  } else if (
-    projectType === 'kubernetes' ||
-    projectType === 'kubernetes-kustomize'
-  ) {
+  } else if (projectType === 'kubernetes' || projectType === 'kubernetes-kustomize') {
     const result = await inquirer.prompt([
       {
         type: 'input',
@@ -69,32 +66,32 @@ export async function createProject() {
           if (!input) return 'Project name is required'
           if (fs.existsSync(input)) return 'Directory already exists'
           return true
-        },
+        }
       },
       {
         type: 'input',
         name: 'image',
         message: 'Enter the container image:',
-        default: 'nginx:latest',
+        default: 'nginx:latest'
       },
       {
         type: 'number',
         name: 'port',
         message: 'Enter the container port:',
-        default: 80,
+        default: 80
       },
       {
         type: 'number',
         name: 'replicas',
         message: 'Enter the number of replicas:',
-        default: 1,
-      },
+        default: 1
+      }
     ])
     projectName = result.projectName
     kubernetesOptions = {
       image: result.image,
       port: result.port,
-      replicas: result.replicas,
+      replicas: result.replicas
     }
   } else {
     const result = await inquirer.prompt([
@@ -106,8 +103,8 @@ export async function createProject() {
           if (!input) return 'Project name is required'
           if (fs.existsSync(input)) return 'Directory already exists'
           return true
-        },
-      },
+        }
+      }
     ])
     projectName = result.projectName
   }
@@ -121,6 +118,9 @@ export async function createProject() {
         break
       case 'express':
         await generateExpressProject(projectName!)
+        break
+      case 'express-hexagonal':
+        await generateExpressHexagonalProject(projectName!)
         break
       case 'typescript-library':
         await generateTypescriptLibraryProject(projectName!)
@@ -138,10 +138,7 @@ export async function createProject() {
         await generateKubernetesProject(projectName!, kubernetesOptions)
         break
       case 'kubernetes-kustomize':
-        await generateKubernetesKustomizeProject(
-          projectName!,
-          kubernetesOptions
-        )
+        await generateKubernetesKustomizeProject(projectName!, kubernetesOptions)
         break
       case 'gitignore':
         await generateGitignore(projectPath!, gitignoreTemplate!)
@@ -156,9 +153,7 @@ export async function createProject() {
 
       if (projectType === 'fastapi') {
         console.log('  python -m venv venv')
-        console.log(
-          '  source venv/bin/activate  # On Windows: venv\\Scripts\\activate'
-        )
+        console.log('  source venv/bin/activate  # On Windows: venv\\Scripts\\activate')
         console.log('  pip install -r requirements.txt')
       } else if (projectType === 'kubernetes') {
         console.log('  kubectl apply -f deployment.yaml')
@@ -171,9 +166,7 @@ export async function createProject() {
           console.log('  1. Configure your Kubernetes cluster access')
           console.log('  2. Update the CRD in example/example.yaml')
           console.log('  3. Run tests: pnpm test')
-          console.log(
-            '  4. Build and deploy: pnpm build && kubectl apply -f deploy/'
-          )
+          console.log('  4. Build and deploy: pnpm build && kubectl apply -f deploy/')
         }
       }
     }
