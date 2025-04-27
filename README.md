@@ -49,10 +49,7 @@ interface MyTemplateOptions {
 3. Create your template generator function:
 
 ```typescript
-export async function generateMyTemplate(
-  projectName: string,
-  options: MyTemplateOptions = {}
-) {
+export async function generateMyTemplate(projectName: string, options: MyTemplateOptions = {}) {
   const projectPath = path.join(process.cwd(), projectName)
 
   try {
@@ -60,10 +57,7 @@ export async function generateMyTemplate(
     await fs.mkdir(projectPath)
 
     // Generate your files
-    await fs.writeFile(
-      path.join(projectPath, 'some-file.txt'),
-      'Your content here'
-    )
+    await fs.writeFile(path.join(projectPath, 'some-file.txt'), 'Your content here')
 
     // Add more files as needed
   } catch (error) {
@@ -172,4 +166,4 @@ When creating new templates, follow these guidelines:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0) - see the [LICENSE.md](LICENSE.md) file for details.
