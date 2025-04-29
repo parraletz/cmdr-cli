@@ -73,7 +73,7 @@ export default defineConfig([
       'no-console': [
         'warn',
         {
-          allow: ['warn', 'error']
+          allow: ['warn', 'error', 'info', 'debug', 'log']
         }
       ],
 

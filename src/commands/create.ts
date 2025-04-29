@@ -3,6 +3,7 @@ import fs from 'fs-extra'
 import inquirer from 'inquirer'
 import ora from 'ora'
 import { generateExpressProject } from '../templates/express'
+import { generateExpressBasicProject } from '../templates/express-basic'
 import { generateExpressHexagonalProject } from '../templates/express-hexagonal'
 import { generateFastApiProject } from '../templates/fastapi'
 import { generateGithubActionProject } from '../templates/github-action'
@@ -22,6 +23,7 @@ export async function createProject() {
       choices: [
         { name: 'Terraform Project', value: 'terraform' },
         { name: 'Express.js API', value: 'express' },
+        { name: 'Express.js 5', value: 'express-basic' },
         { name: 'Express Hexagonal Architecture Boilerplate', value: 'express-hexagonal' },
         { name: 'FastAPI Python Project', value: 'fastapi' },
         { name: 'GitHub Action', value: 'github-action' },
@@ -118,6 +120,9 @@ export async function createProject() {
         break
       case 'express':
         await generateExpressProject(projectName!)
+        break
+      case 'express-basic':
+        await generateExpressBasicProject(projectName!)
         break
       case 'express-hexagonal':
         await generateExpressHexagonalProject(projectName!)
