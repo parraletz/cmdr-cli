@@ -157,9 +157,8 @@ export async function createProject() {
       console.log(`  cd ${projectName}`)
 
       if (projectType === 'fastapi') {
-        console.log('  python -m venv venv')
-        console.log('  source venv/bin/activate  # On Windows: venv\\Scripts\\activate')
-        console.log('  pip install -r requirements.txt')
+        console.log('  uv sync')
+        console.log('  ENVIRONMENT=local uv run python main.py')
       } else if (projectType === 'kubernetes') {
         console.log('  kubectl apply -f deployment.yaml')
         console.log('  kubectl apply -f service.yaml')

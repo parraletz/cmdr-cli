@@ -1,22 +1,18 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { simpleGit, SimpleGit } from 'simple-git'
-import { generateGitignore } from '../utils/gitignore'
-
-interface FastAPIProjectOptions {
-  git?: boolean
-  repository?: string
-}
 
 export async function generateFastApiProject(
   projectName: string,
-  options: FastAPIProjectOptions = {}
+  options: {
+    git?: boolean
+    repository?: string
+  } = {}
 ) {
   const projectPath = path.join(process.cwd(), projectName)
-  const shouldInitializeGit = options.git !== false // Default to true if not explicitly set to false
+  const shouldInitializeGit = options.git !== false
   const git: SimpleGit = simpleGit()
-  const repository =
-    options.repository || 'https://github.com/parraletz/fastapi-service-template.git'
+  const repository = options.repository || 'https://github.com/parraletz/fastapi-template.git'
 
   try {
     // Clone the repository
@@ -26,62 +22,29 @@ export async function generateFastApiProject(
     // Remove the .git directory to start fresh
     await fs.remove(path.join(projectPath, '.git'))
 
-    // Generate .gitignore file using the utility
-    await generateGitignore(projectPath, ['python', 'venv', 'vscode'])
+    // Update package.json with the new project name
+    const packageJsonPath = path.join(projectPath, 'package.json')
+    const packageJson = await fs.readJson(packageJsonPath)
+    packageJson.name = projectName
+    await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 })
 
-    // Create project files
-    await fs.writeFile(
-      path.join(projectPath, 'requirements.txt'),
-      'fastapi\nuvicorn\npython-dotenv\n'
+    // Update README.md
+    const readmePath = path.join(projectPath, 'README.md')
+    let readmeContent = await fs.readFile(readmePath, 'utf-8')
+    readmeContent = readmeContent.replace(/# Platform API/, `# ${projectName}`)
+    readmeContent = readmeContent.replace(
+      /git clone https:\/\/github\.com\/parraletz\/fastapi-template\.git/,
+      `git clone YOUR_REPOSITORY_URL`
     )
+    await fs.writeFile(readmePath, readmeContent)
 
-    await fs.writeFile(
-      path.join(projectPath, 'main.py'),
-      `from fastapi import FastAPI
-
-app = FastAPI()
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-`
-    )
-
-    await fs.writeFile(path.join(projectPath, '.env'), 'PORT=8000\nENVIRONMENT=development\n')
-
-    await fs.writeFile(
-      path.join(projectPath, 'README.md'),
-      `# ${projectName}
-
-A FastAPI project.
-
-## Setup
-
-1. Create virtual environment:
-    \`\`\`bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\\Scripts\\activate
-    \`\`\`
-
-2. Install dependencies:
-    \`\`\`bash
-    pip install -r requirements.txt
-    \`\`\`
-
-3. Run the server:
-    \`\`\`bash
-    uvicorn main:app --reload
-    \`\`\`
-
-Visit http://localhost:8000/docs for the API documentation.`
-    )
-
-    // Initialize git if not disabled
+    // Initialize git repository if requested
     if (shouldInitializeGit) {
       console.log('Initializing git repository...')
-      await git.init()
-      await git.add('.')
-      await git.commit('Initial commit')
+      const projectGit = simpleGit(projectPath)
+      await projectGit.init()
+      await projectGit.add('.')
+      await projectGit.commit('Initial commit from fastapi-template')
     }
   } catch (error) {
     // Clean up if something goes wrong
