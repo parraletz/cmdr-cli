@@ -22,12 +22,6 @@ export async function generateFastApiProject(
     // Remove the .git directory to start fresh
     await fs.remove(path.join(projectPath, '.git'))
 
-    // Update package.json with the new project name
-    const packageJsonPath = path.join(projectPath, 'package.json')
-    const packageJson = await fs.readJson(packageJsonPath)
-    packageJson.name = projectName
-    await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 })
-
     // Update README.md
     const readmePath = path.join(projectPath, 'README.md')
     let readmeContent = await fs.readFile(readmePath, 'utf-8')
